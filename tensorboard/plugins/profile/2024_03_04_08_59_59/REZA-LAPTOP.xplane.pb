@@ -1,2 +1,0 @@
-
-	/host:CPU"REZA-LAPTOP

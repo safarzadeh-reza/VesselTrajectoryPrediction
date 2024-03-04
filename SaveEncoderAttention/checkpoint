@@ -1,6 +1,0 @@
-model_checkpoint_path: "EncoderAttention.ckpt-100"
-all_model_checkpoint_paths: "EncoderAttention.ckpt-50"
-all_model_checkpoint_paths: "EncoderAttention.ckpt-100"
-all_model_checkpoint_timestamps: 1709542737.3815818
-all_model_checkpoint_timestamps: 1709542799.8316708
-last_preserved_timestamp: 1709542486.8726237

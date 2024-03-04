@@ -1,6 +1,0 @@
-model_checkpoint_path: "DecoderAttention.ckpt-100"
-all_model_checkpoint_paths: "DecoderAttention.ckpt-50"
-all_model_checkpoint_paths: "DecoderAttention.ckpt-100"
-all_model_checkpoint_timestamps: 1709542737.44258
-all_model_checkpoint_timestamps: 1709542799.8671362
-last_preserved_timestamp: 1709542486.8726237

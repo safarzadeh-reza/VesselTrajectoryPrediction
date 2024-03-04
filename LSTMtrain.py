@@ -4,10 +4,11 @@ import numpy as np
 from TrajectoryLoader import TrajectoryLoader
 import Model
 
+
 # parameters for mini-batch gradient descent training
 learning_rate = 0.001
 num_batches = 3000
-batch_size = 1024
+batch_size = 256
 display_step = 100
 # parameters for LSTM network   
 n_lstm = 128
@@ -32,9 +33,9 @@ checkpoint1.restore(tf.train.latest_checkpoint('./SaveLSTM'))
 # Create a directory for the profiler output (choose an appropriate path)
 profiler_outdir = './tensorboard'
 # Enable tracing with profiler
-tf.summary.trace_on(profiler=True, profiler_outdir=profiler_outdir)
+# tf.summary.trace_on(profiler=True, profiler_outdir=profiler_outdir)
 summary_writer = tf.summary.create_file_writer('tensorboard')
-# tf.summary.trace_on(profiler=True)
+tf.summary.trace_on(profiler=True)
 
 # checkpoint
 checkpoint = tf.train.Checkpoint(LSTM_network = neural_net)
@@ -83,7 +84,7 @@ for batch_index in range(1, num_batches+1):
         path = manager.save(checkpoint_number = batch_index)
 
 with summary_writer.as_default():
-    tf.summary.trace_export(name = "model_trace", step = 0)
+    tf.summary.trace_export(name = "model_trace", step = 0, profiler_outdir = 'tensorboard')
 
 
 

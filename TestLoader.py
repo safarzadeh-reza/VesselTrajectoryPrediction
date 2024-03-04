@@ -135,7 +135,7 @@ class TestLoader():
                         is_valid = False
                         break
             seq_encoder.append(seq_temp[:encoder_length, :])
-            # 注意，这里seq_decoder的长度实际是decoder_length+1，因为seq_encoder的最后一位要用于输入
+            # Note that the length of seq_decoder here is actually decoder_length+1, because the last bit of seq_encoder is used for input
             seq_decoder.append(seq_temp[encoder_length-1:seq_length, :])
             seq_encoder_test = np.array(seq_encoder)[:, :, :5]
             seq_encoder_coordinates = np.array(seq_encoder)[:, :, 5:]
