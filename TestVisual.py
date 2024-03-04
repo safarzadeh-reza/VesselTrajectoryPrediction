@@ -5,6 +5,8 @@ import csv
 from TestLoader import TestLoader
 import os
 import simplekml
+from shapely.geometry import LineString
+
 
 # network parameters
 n_lstm = 128
@@ -189,8 +191,8 @@ test_loader.loadTestTrajectory("./DataSet/test_fix.csv")
 
 print("Test data loaded.")
 
-source_length = 120
-target_length = 60
+source_length = 250
+target_length = 50
 
 source_seq, source_coordinates, target_seq, target_coordinates= test_loader.getTestSeq2Seq(batch_size, source_length, target_length)
 
@@ -293,6 +295,7 @@ for i in range(len(lng_pred)):
     lng1 = lng2
     lat1 = lat2
 kml.save('./Visualization/pred_a.kml')
+
 
 # # pred coordomates
 # delta_lng = pred_seq2seq[:, 1]
