@@ -207,9 +207,10 @@ class TrajectoryLoader():
 
 if __name__ == '__main__':
     x = TrajectoryLoader()
-    start = time.clock()
-    x.loadTrajectoryData("./DataSet/TrajectoryMillion.csv")
-    end = time.clock()
+    start = time.time()
+    x.loadTrajectoryData("./DataSet/DataSet/Trajectory10w.csv")
+    end = time.time()
+
     print("running time: %s s" % (end-start))
     seq = x.getBatchSeq2Seq(1024, 40, 20)
 
