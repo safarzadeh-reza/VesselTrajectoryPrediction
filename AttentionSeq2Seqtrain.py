@@ -8,8 +8,8 @@ from TrajectoryLoader import TrajectoryLoader
 
 # parameters for traning
 learnig_rate = 0.001
-num_batches = 10
-batch_size = 32
+num_batches = 100
+batch_size = 64
 display_step = 50
 # parameters for seq2seq model
 n_lstm = 64
@@ -44,8 +44,10 @@ checkpoint5.restore(tf.train.latest_checkpoint('./SaveDecoderAttention'))
 
 
 # tensorboard
+profiler_outdir = '.\\tensorboard'
+tf.summary.trace_on(profiler=True, profiler_outdir=profiler_outdir)
 summary_writer = tf.summary.create_file_writer('tensorboard')
-tf.summary.trace_on(profiler=True)
+
 # checkpoint
 checkpoint1 = tf.train.Checkpoint(EncoderAttention = encoder_a)
 manager1 = tf.train.CheckpointManager(checkpoint1, directory = './SaveEncoderAttention', checkpoint_name = 'EncoderAttention.ckpt', max_to_keep = 10)
@@ -101,5 +103,5 @@ for batch_index in range(1, num_batches+1):
         path2 = manager2.save(checkpoint_number = batch_index)
 
 with summary_writer.as_default():
-    tf.summary.trace_export(name = "model_trace", step = 0, profiler_outdir = 'tensorboard')
+    tf.summary.trace_export(name = "model_trace", step = 0)
 
