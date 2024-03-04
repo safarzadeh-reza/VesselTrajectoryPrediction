@@ -1,6 +1,6 @@
 model_checkpoint_path: "LSTMnetwork.ckpt-200"
 all_model_checkpoint_paths: "LSTMnetwork.ckpt-100"
 all_model_checkpoint_paths: "LSTMnetwork.ckpt-200"
-all_model_checkpoint_timestamps: 1709511896.1149874
-all_model_checkpoint_timestamps: 1709511911.6966567
-last_preserved_timestamp: 1709511877.9987628
+all_model_checkpoint_timestamps: 1709532467.5128105
+all_model_checkpoint_timestamps: 1709532483.3166862
+last_preserved_timestamp: 1709532449.3055143

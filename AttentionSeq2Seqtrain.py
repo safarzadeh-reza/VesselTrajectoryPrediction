@@ -8,11 +8,11 @@ from TrajectoryLoader import TrajectoryLoader
 
 # parameters for traning
 learnig_rate = 0.001
-num_batches = 3000
-batch_size = 128
+num_batches = 10
+batch_size = 32
 display_step = 50
 # parameters for seq2seq model
-n_lstm = 128
+n_lstm = 64
 encoder_length = 120
 decoder_length = 60
 
@@ -40,6 +40,8 @@ checkpoint4.restore(tf.train.latest_checkpoint('./SaveEncoderAttention'))
 
 checkpoint5 = tf.train.Checkpoint(DecoderAttention = decoder_a)
 checkpoint5.restore(tf.train.latest_checkpoint('./SaveDecoderAttention'))
+
+
 
 # tensorboard
 summary_writer = tf.summary.create_file_writer('tensorboard')
@@ -85,7 +87,7 @@ def RunOptimization(source_seq, target_seq_in, target_seq_out, step):
 
 # Load trajectory data.
 seq2seq_loader = TrajectoryLoader()
-seq2seq_loader.loadTrajectoryData("./DataSet/TrajectoryMillion.csv")
+seq2seq_loader.loadTrajectoryData("./DataSet/DataSet/Trajectory10w.csv")
 
 for batch_index in range(1, num_batches+1):
     seq_encoder, seq_decoder = seq2seq_loader.getBatchSeq2Seq(batch_size, encoder_length, decoder_length)

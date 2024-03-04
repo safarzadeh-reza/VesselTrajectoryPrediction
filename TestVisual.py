@@ -18,21 +18,21 @@ lstm_restored = Model.LSTM(n_lstm, lstm_step, batch_size)
 checkpoint1 = tf.train.Checkpoint(LSTM_network = lstm_restored)
 checkpoint1.restore(tf.train.latest_checkpoint('./SaveLSTM'))
 
-# encoder = Model.Encoder(n_lstm, batch_size)
-# checkpoint2 = tf.train.Checkpoint(Encoder = encoder)
-# checkpoint2.restore(tf.train.latest_checkpoint('./SaveEncoder'))
+encoder = Model.Encoder(n_lstm, batch_size)
+checkpoint2 = tf.train.Checkpoint(Encoder = encoder)
+checkpoint2.restore(tf.train.latest_checkpoint('./SaveEncoder'))
 
-# decoder = Model.Decoder(n_lstm, batch_size)
-# checkpoint3 = tf.train.Checkpoint(Decoder = decoder)
-# checkpoint3.restore(tf.train.latest_checkpoint('./SaveDecoder'))
+decoder = Model.Decoder(n_lstm, batch_size)
+checkpoint3 = tf.train.Checkpoint(Decoder = decoder)
+checkpoint3.restore(tf.train.latest_checkpoint('./SaveDecoder'))
 
-# encoder_a = Model.Encoder(n_lstm, batch_size)
-# checkpoint4 = tf.train.Checkpoint(EncoderAttention = encoder_a)
-# checkpoint4.restore(tf.train.latest_checkpoint('./SaveEncoderAttention'))
+encoder_a = Model.Encoder(n_lstm, batch_size)
+checkpoint4 = tf.train.Checkpoint(EncoderAttention = encoder_a)
+checkpoint4.restore(tf.train.latest_checkpoint('./SaveEncoderAttention'))
 
-# decoder_a = Model.DecoderAttention(n_lstm, batch_size, 'general')
-# checkpoint5 = tf.train.Checkpoint(DecoderAttention = decoder_a)
-# checkpoint5.restore(tf.train.latest_checkpoint('./SaveDecoderAttention'))
+decoder_a = Model.DecoderAttention(n_lstm, batch_size, 'general')
+checkpoint5 = tf.train.Checkpoint(DecoderAttention = decoder_a)
+checkpoint5.restore(tf.train.latest_checkpoint('./SaveDecoderAttention'))
 
 # Test functions for models: TestSeq2Seq, TestSeq2SeqAttention, TestLSTM.
 
@@ -192,26 +192,26 @@ test_loader.loadTestTrajectory("./DataSet/test_fix.csv")
 print("Test data loaded.")
 
 source_length = 250
-target_length = 50
+target_length = 60
 
 source_seq, source_coordinates, target_seq, target_coordinates= test_loader.getTestSeq2Seq(batch_size, source_length, target_length)
 
-# LSTM
-test_x = source_seq
-test_y = target_seq[:, 1:target_length+1, :]
-pred_lstm, loss = TestLSTM(test_x, test_y)
-print("Result of LSTM_%d: %f" % (target_length, loss))
+# # LSTM
+# test_x = source_seq
+# test_y = target_seq[:, 1:target_length+1, :]
+# pred_lstm, loss = TestLSTM(test_x, test_y)
+# print("Result of LSTM_%d: %f" % (target_length, loss))
 
-# # Seq2Seq
-# target_seq_in = target_seq[:, :target_length, :]
-# target_seq_out = target_seq[:, 1:target_length+1, :]
+# Seq2Seq
+target_seq_in = target_seq[:, :target_length, :]
+target_seq_out = target_seq[:, 1:target_length+1, :]
 
 # pred_seq2seq, loss = TestSeq2Seq(source_seq, target_seq_in, target_seq_out)
 # print("Result of Seq2Seq_%d: %f" % (target_length, loss))
 
-# # Seq2SeqAttention
-# pred_aseq2seq, loss = TestAttentionSeq2Seq(source_seq, target_seq_in, target_seq_out)
-# print("Result of Seq2SeqAttention_%d: %f" % (target_length, loss))
+# Seq2SeqAttention
+pred_aseq2seq_a, loss = TestAttentionSeq2Seq(source_seq, target_seq_in, target_seq_out)
+print("Result of Seq2SeqAttention_%d: %f" % (target_length, loss))
 
 
 # Coordinates recovery: denormalize and convert to list.
@@ -262,49 +262,15 @@ for i in range(1, len(lng_true)):
 kml.save('./Visualization/true.kml')
 
 
-# pred coordomates
-delta_lng = pred_lstm[:, 1]
-delta_lat =pred_lstm[:, 2]
-delta_lng = delta_lng * (test_loader.max_train_data[1] - test_loader.min_train_data[1]) + test_loader.min_train_data[1]
-delta_lat = delta_lat * (test_loader.max_train_data[2] - test_loader.min_train_data[2]) + test_loader.min_train_data[2]
-delta_lng = delta_lng.tolist()
-delta_lat = delta_lat.tolist()
-
-# delta_lng, delta_lat to lng, lat
-lng0 = lng_true[0]
-lat0 = lat_true[0]
-lng_pred = []
-lat_pred = []
-for i in range(len(delta_lng)):
-    lng = lng0 + delta_lng[i]
-    lat = lat0 + delta_lat[i]
-    lng_pred.append(lng)
-    lat_pred.append(lat)
-    lng0 = lng
-    lat0 = lat
-
-kml = simplekml.Kml(open=1)
-lng1 = lng_true[0]
-lat1 = lat_true[0]
-for i in range(len(lng_pred)):
-    lng2 = lng_pred[i]
-    lat2 = lat_pred[i]
-    name = '%d' %i
-    linestring = kml.newlinestring(name=name)
-    linestring.coords = [(lng1, lat1), (lng2, lat2)]
-    lng1 = lng2
-    lat1 = lat2
-kml.save('./Visualization/pred_a.kml')
-
-
-# # pred coordomates
-# delta_lng = pred_seq2seq[:, 1]
-# delta_lat = pred_seq2seq[:, 2]
+# # pred coordomates for LSTM
+# delta_lng = pred_lstm[:, 1]
+# delta_lat =pred_lstm[:, 2]
 # delta_lng = delta_lng * (test_loader.max_train_data[1] - test_loader.min_train_data[1]) + test_loader.min_train_data[1]
 # delta_lat = delta_lat * (test_loader.max_train_data[2] - test_loader.min_train_data[2]) + test_loader.min_train_data[2]
 # delta_lng = delta_lng.tolist()
 # delta_lat = delta_lat.tolist()
 
+# # delta_lng, delta_lat to lng, lat
 # lng0 = lng_true[0]
 # lat0 = lat_true[0]
 # lng_pred = []
@@ -328,4 +294,38 @@ kml.save('./Visualization/pred_a.kml')
 #     linestring.coords = [(lng1, lat1), (lng2, lat2)]
 #     lng1 = lng2
 #     lat1 = lat2
-# kml.save('./Visualization/pred_seq.kml')
+# kml.save('./Visualization/pred_a.kml')
+
+
+# pred coordomates for Seq2Seq
+delta_lng = pred_aseq2seq_a[:, 1]
+delta_lat = pred_aseq2seq_a[:, 2]
+delta_lng = delta_lng * (test_loader.max_train_data[1] - test_loader.min_train_data[1]) + test_loader.min_train_data[1]
+delta_lat = delta_lat * (test_loader.max_train_data[2] - test_loader.min_train_data[2]) + test_loader.min_train_data[2]
+delta_lng = delta_lng.tolist()
+delta_lat = delta_lat.tolist()
+
+lng0 = lng_true[0]
+lat0 = lat_true[0]
+lng_pred = []
+lat_pred = []
+for i in range(len(delta_lng)):
+    lng = lng0 + delta_lng[i]
+    lat = lat0 + delta_lat[i]
+    lng_pred.append(lng)
+    lat_pred.append(lat)
+    lng0 = lng
+    lat0 = lat
+
+kml = simplekml.Kml(open=1)
+lng1 = lng_true[0]
+lat1 = lat_true[0]
+for i in range(len(lng_pred)):
+    lng2 = lng_pred[i]
+    lat2 = lat_pred[i]
+    name = '%d' %i
+    linestring = kml.newlinestring(name=name)
+    linestring.coords = [(lng1, lat1), (lng2, lat2)]
+    lng1 = lng2
+    lat1 = lat2
+kml.save('./Visualization/pred_seq.kml')

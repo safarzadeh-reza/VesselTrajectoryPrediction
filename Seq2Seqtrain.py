@@ -78,7 +78,7 @@ def RunOptimization(source_seq, target_seq_in, target_seq_out, step):
 
 # Load trajectory data.
 seq2seq_loader = TrajectoryLoader()
-seq2seq_loader.loadTrajectoryData("./DataSet/TrajectoryMillion.csv")
+seq2seq_loader.loadTrajectoryData("./DataSet/DataSet/Trajectory10w.csv")
 
 for batch_index in range(1, num_batches+1):
     seq_encoder, seq_decoder = seq2seq_loader.getBatchSeq2Seq(batch_size, encoder_length, decoder_length)
