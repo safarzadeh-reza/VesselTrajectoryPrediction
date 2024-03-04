@@ -63,7 +63,7 @@ def RunOptimization(x, y, step):
 
 # Load trajectory data.
 lstm_loader = TrajectoryLoader()
-lstm_loader.loadTrajectoryData("./DataSet/TrajectoryMillion.csv")
+lstm_loader.loadTrajectoryData("./DataSet/DataSet/Trajectory10w.csv")
 
 # optimazation process.
 for batch_index in range(1, num_batches+1):

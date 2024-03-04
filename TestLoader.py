@@ -145,7 +145,7 @@ class TestLoader():
 
 if __name__ == '__main__':
     x = TestLoader()
-    start = time.clock()
-    x.loadTestTrajectory("./DataSet/test.csv")
-    end = time.clock()
+    start = time.timr()
+    x.loadTestTrajectory("./DataSet/test_fix.csv")
+    end = time.time()
     print("running time: %s s" % (end-start))
