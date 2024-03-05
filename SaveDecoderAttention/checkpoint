@@ -1,0 +1,14 @@
+model_checkpoint_path: "DecoderAttention.ckpt-300"
+all_model_checkpoint_paths: "DecoderAttention.ckpt-50"
+all_model_checkpoint_paths: "DecoderAttention.ckpt-100"
+all_model_checkpoint_paths: "DecoderAttention.ckpt-150"
+all_model_checkpoint_paths: "DecoderAttention.ckpt-200"
+all_model_checkpoint_paths: "DecoderAttention.ckpt-250"
+all_model_checkpoint_paths: "DecoderAttention.ckpt-300"
+all_model_checkpoint_timestamps: 1709626191.0646522
+all_model_checkpoint_timestamps: 1709626343.9225535
+all_model_checkpoint_timestamps: 1709626471.1865969
+all_model_checkpoint_timestamps: 1709626683.6642756
+all_model_checkpoint_timestamps: 1709626994.2539675
+all_model_checkpoint_timestamps: 1709627470.61199
+last_preserved_timestamp: 1709626063.2881572

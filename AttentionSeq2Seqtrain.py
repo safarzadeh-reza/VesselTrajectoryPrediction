@@ -8,13 +8,13 @@ from TrajectoryLoader import TrajectoryLoader
 
 # parameters for traning
 learnig_rate = 0.001
-num_batches = 100
+num_batches = 300
 batch_size = 16
 display_step = 50
 # parameters for seq2seq model
-n_lstm = 64
-encoder_length = 60
-decoder_length = 20
+n_lstm = 128
+encoder_length = 120
+decoder_length = 60
 
 attention_func1 = 'dot' 
 attention_func2 = 'general' 

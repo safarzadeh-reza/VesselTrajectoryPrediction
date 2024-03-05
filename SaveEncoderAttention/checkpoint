@@ -1,0 +1,14 @@
+model_checkpoint_path: "EncoderAttention.ckpt-300"
+all_model_checkpoint_paths: "EncoderAttention.ckpt-50"
+all_model_checkpoint_paths: "EncoderAttention.ckpt-100"
+all_model_checkpoint_paths: "EncoderAttention.ckpt-150"
+all_model_checkpoint_paths: "EncoderAttention.ckpt-200"
+all_model_checkpoint_paths: "EncoderAttention.ckpt-250"
+all_model_checkpoint_paths: "EncoderAttention.ckpt-300"
+all_model_checkpoint_timestamps: 1709626190.9805548
+all_model_checkpoint_timestamps: 1709626343.830974
+all_model_checkpoint_timestamps: 1709626471.1553426
+all_model_checkpoint_timestamps: 1709626683.6323385
+all_model_checkpoint_timestamps: 1709626994.2162805
+all_model_checkpoint_timestamps: 1709627470.564386
+last_preserved_timestamp: 1709626063.2881572
