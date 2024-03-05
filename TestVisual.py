@@ -193,7 +193,7 @@ test_loader.loadTestTrajectory("./DataSet/test_fix.csv")
 print("Test data loaded.")
 
 source_length = 500
-target_length = 120
+target_length = 60
 
 source_seq, source_coordinates, target_seq, target_coordinates, traj_ids = test_loader.getTestSeq2Seq(batch_size, source_length, target_length)
 
@@ -202,7 +202,7 @@ test_x = source_seq
 test_y = target_seq[:, 1:target_length+1, :]
 pred_lstm, loss = TestLSTM(test_x, test_y)
 print("Result of LSTM_%d: %f" % (target_length, loss))
-print("ids:" % traj_ids)
+
 
 # Seq2Seq
 target_seq_in = target_seq[:, :target_length, :]
@@ -254,14 +254,14 @@ lat_source = lat_source.tolist()
 kml = simplekml.Kml(open=1)
 lng1 = lng_source[0]
 lat1 = lat_source[0]
-kml.newpoint(name=str(0), coords=[(lng1, lat1)])
+# kml.newpoint(name=str(0), coords=[(lng1, lat1)])
 for i in range(1, len(lng_source)):
     lng2 = lng_source[i]
     lat2 = lat_source[i]
     name = '%d' %i
-    # linestring = kml.newlinestring(name=name)
-    # linestring.coords = [(lng1, lat1), (lng2, lat2)]
-    kml.newpoint(name=str(i), coords=[(lng2, lat2)])
+    linestring = kml.newlinestring(name=name)
+    linestring.coords = [(lng1, lat1), (lng2, lat2)]
+    # kml.newpoint(name=str(i), coords=[(lng2, lat2)])
     lng1 = lng2
     lat1 = lat2
 kml.save('./Visualization/source.kml')
@@ -281,14 +281,14 @@ lat0 = lat_true[0]
 kml = simplekml.Kml(open=1)
 lng1 = lng_true[0]
 lat1 = lat_true[0]
-kml.newpoint(name=str(0), coords=[(lng1, lat1)])
+# kml.newpoint(name=str(0), coords=[(lng1, lat1)])
 for i in range(1, len(lng_true)):
     lng2 = lng_true[i]
     lat2 = lat_true[i]
     name = '%d' %i
-    # linestring = kml.newlinestring(name=name)
-    # linestring.coords = [(lng1, lat1), (lng2, lat2)]
-    kml.newpoint(name=str(i), coords=[(lng2, lat2)])
+    linestring = kml.newlinestring(name=name)
+    linestring.coords = [(lng1, lat1), (lng2, lat2)]
+    # kml.newpoint(name=str(i), coords=[(lng2, lat2)])
     lng1 = lng2
     lat1 = lat2
 kml.save('./Visualization/true.kml')
@@ -318,14 +318,14 @@ for i in range(len(delta_lng)):
 kml = simplekml.Kml(open=1)
 lng1 = lng_true[0]
 lat1 = lat_true[0]
-kml.newpoint(name=str(0), coords=[(lng1, lat1)])
+# kml.newpoint(name=str(0), coords=[(lng1, lat1)])
 for i in range(len(lng_pred)):
     lng2 = lng_pred[i]
     lat2 = lat_pred[i]
     name = '%d' %i
-    # linestring = kml.newlinestring(name=name)
-    # linestring.coords = [(lng1, lat1), (lng2, lat2)]
-    kml.newpoint(name=str(i), coords=[(lng2, lat2)])
+    linestring = kml.newlinestring(name=name)
+    linestring.coords = [(lng1, lat1), (lng2, lat2)]
+    # kml.newpoint(name=str(i), coords=[(lng2, lat2)])
     lng1 = lng2
     lat1 = lat2
 kml.save('./Visualization/pred_LSTM.kml')
