@@ -15,8 +15,9 @@ class TestLoader():
             row (list): a row of csv file.
 
         Returns:
-            np.array: point: delta_time(ms), delta_lng, delta_lat, sog, cog, time(ms), lng, lat
+            np.array: point: delta_time(ms), delta_lng, delta_lat, sog, cog, time(ms), lng, lat, id
         """        
+        # array = np.array([row[6], row[7], row[8], row[2], row[5], row[3], row[4]], np.float32)
         array = np.array([row[6], row[7], row[8], row[2], row[5], row[3], row[4]], np.float32)
         return array
 
@@ -32,13 +33,19 @@ class TestLoader():
         """        
         self.file_name = file_name
         points_list = []
+        id_list = []
         with open(self.file_name, 'r') as f:
             reader = csv.reader(f)
             for row in reader:
                 point = self.row2array(row)
                 points_list.append(point)
+                id_list.append(row[1])
+                
         
         self.trajectory = np.array(points_list)
+        
+        # added by Reza
+        self.id = np.array(id_list)
 
         # normalization: (x - min) / (max - min)
         self.max_train_data, self.min_train_data = self.trajectory.max(axis = 0), self.trajectory.min(axis = 0)
@@ -123,12 +130,15 @@ class TestLoader():
         seq_decoder = []
         seq_length = encoder_length + decoder_length
         
+        traj_ids = []
+        
         for i in range(batch_size):
             seq_temp = []
             is_valid = False
             while not is_valid:
                 index = np.random.randint(0, len(self.trajectory) - seq_length + 1)
                 seq_temp = self.trajectory[index: index + seq_length]
+                id_temp = self.id[index: index + seq_length]
                 is_valid = True
                 for point in seq_temp:
                     if point[0] == 0.0:
@@ -141,7 +151,14 @@ class TestLoader():
             seq_encoder_coordinates = np.array(seq_encoder)[:, :, 5:]
             seq_decoder_test = np.array(seq_decoder)[:, :, :5]
             seq_decoder_coordinates = np.array(seq_decoder)[:, :, 5:]
-        return seq_encoder_test, seq_encoder_coordinates, seq_decoder_test, seq_decoder_coordinates
+            
+            traj_id = int(id_temp[0])
+            traj_ids.append(traj_id)
+        
+        self.traj_ids = traj_ids
+            
+            
+        return seq_encoder_test, seq_encoder_coordinates, seq_decoder_test, seq_decoder_coordinates, traj_ids
 
 if __name__ == '__main__':
     x = TestLoader()

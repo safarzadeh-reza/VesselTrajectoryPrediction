@@ -179,7 +179,7 @@ source_length = 120
 target_testset = [20, 40, 60, 80, 100, 120]
 
 for target_length in target_testset:
-    source_seq, source_coordinates, target_seq, target_coordinates= test_loader.getTestSeq2Seq(batch_size, source_length, target_length)
+    source_seq, source_coordinates, target_seq, target_coordinates, traj_id = test_loader.getTestSeq2Seq(batch_size, source_length, target_length)
 
     # LSTM
     test_x = source_seq

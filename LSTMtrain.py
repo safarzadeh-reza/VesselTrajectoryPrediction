@@ -7,7 +7,7 @@ import Model
 
 # parameters for mini-batch gradient descent training
 learning_rate = 0.001
-num_batches = 3000
+num_batches = 5000
 batch_size = 256
 display_step = 100
 # parameters for LSTM network   
