@@ -192,8 +192,8 @@ test_loader.loadTestTrajectory("./DataSet/test_fix.csv")
 
 print("Test data loaded.")
 
-source_length = 2000
-target_length = 60
+source_length = 500
+target_length = 120
 
 source_seq, source_coordinates, target_seq, target_coordinates, traj_ids = test_loader.getTestSeq2Seq(batch_size, source_length, target_length)
 
@@ -204,16 +204,16 @@ pred_lstm, loss = TestLSTM(test_x, test_y)
 print("Result of LSTM_%d: %f" % (target_length, loss))
 print("ids:" % traj_ids)
 
-# # Seq2Seq
-# target_seq_in = target_seq[:, :target_length, :]
-# target_seq_out = target_seq[:, 1:target_length+1, :]
+# Seq2Seq
+target_seq_in = target_seq[:, :target_length, :]
+target_seq_out = target_seq[:, 1:target_length+1, :]
 
 # pred_seq2seq, loss = TestSeq2Seq(source_seq, target_seq_in, target_seq_out)
 # print("Result of Seq2Seq_%d: %f" % (target_length, loss))
 
-# # Seq2SeqAttention
-# pred_aseq2seq_a, loss = TestAttentionSeq2Seq(source_seq, target_seq_in, target_seq_out)
-# print("Result of Seq2SeqAttention_%d: %f" % (target_length, loss))
+# Seq2SeqAttention
+pred_aseq2seq_a, loss = TestAttentionSeq2Seq(source_seq, target_seq_in, target_seq_out)
+print("Result of Seq2SeqAttention_%d: %f" % (target_length, loss))
 
 
 # show the full trajectory of the id
@@ -331,35 +331,35 @@ for i in range(len(lng_pred)):
 kml.save('./Visualization/pred_LSTM.kml')
 
 
-# # pred coordomates for Seq2Seq
-# delta_lng = pred_aseq2seq_a[:, 1]
-# delta_lat = pred_aseq2seq_a[:, 2]
-# delta_lng = delta_lng * (test_loader.max_train_data[1] - test_loader.min_train_data[1]) + test_loader.min_train_data[1]
-# delta_lat = delta_lat * (test_loader.max_train_data[2] - test_loader.min_train_data[2]) + test_loader.min_train_data[2]
-# delta_lng = delta_lng.tolist()
-# delta_lat = delta_lat.tolist()
+# pred coordomates for Seq2Seq
+delta_lng = pred_aseq2seq_a[:, 1]
+delta_lat = pred_aseq2seq_a[:, 2]
+delta_lng = delta_lng * (test_loader.max_train_data[1] - test_loader.min_train_data[1]) + test_loader.min_train_data[1]
+delta_lat = delta_lat * (test_loader.max_train_data[2] - test_loader.min_train_data[2]) + test_loader.min_train_data[2]
+delta_lng = delta_lng.tolist()
+delta_lat = delta_lat.tolist()
 
-# lng0 = lng_true[0]
-# lat0 = lat_true[0]
-# lng_pred = []
-# lat_pred = []
-# for i in range(len(delta_lng)):
-#     lng = lng0 + delta_lng[i]
-#     lat = lat0 + delta_lat[i]
-#     lng_pred.append(lng)
-#     lat_pred.append(lat)
-#     lng0 = lng
-#     lat0 = lat
+lng0 = lng_true[0]
+lat0 = lat_true[0]
+lng_pred = []
+lat_pred = []
+for i in range(len(delta_lng)):
+    lng = lng0 + delta_lng[i]
+    lat = lat0 + delta_lat[i]
+    lng_pred.append(lng)
+    lat_pred.append(lat)
+    lng0 = lng
+    lat0 = lat
 
-# kml = simplekml.Kml(open=1)
-# lng1 = lng_true[0]
-# lat1 = lat_true[0]
-# for i in range(len(lng_pred)):
-#     lng2 = lng_pred[i]
-#     lat2 = lat_pred[i]
-#     name = '%d' %i
-#     linestring = kml.newlinestring(name=name)
-#     linestring.coords = [(lng1, lat1), (lng2, lat2)]
-#     lng1 = lng2
-#     lat1 = lat2
-# kml.save('./Visualization/pred_seq_attention.kml')
+kml = simplekml.Kml(open=1)
+lng1 = lng_true[0]
+lat1 = lat_true[0]
+for i in range(len(lng_pred)):
+    lng2 = lng_pred[i]
+    lat2 = lat_pred[i]
+    name = '%d' %i
+    linestring = kml.newlinestring(name=name)
+    linestring.coords = [(lng1, lat1), (lng2, lat2)]
+    lng1 = lng2
+    lat1 = lat2
+kml.save('./Visualization/pred_seq_attention.kml')
