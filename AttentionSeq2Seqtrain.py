@@ -5,11 +5,10 @@ import csv
 import Model
 from TrajectoryLoader import TrajectoryLoader
 
-
 # parameters for traning
 learnig_rate = 0.001
-num_batches = 300
-batch_size = 16
+num_batches = 3000
+batch_size = 128
 display_step = 50
 # parameters for seq2seq model
 n_lstm = 128
