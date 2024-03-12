@@ -12,7 +12,7 @@ batch_size = 256
 display_step = 50
 # parameters for LSTM network   
 n_lstm = 128
-lstm_step = 6
+lstm_step = 6 
 seq_length = 20
 
 # Choose Adam optimizer.
